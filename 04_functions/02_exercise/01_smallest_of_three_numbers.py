@@ -5,6 +5,6 @@ def the_smallest_number(numbers: list) -> int:
 
 number_one = int(input())
 number_two = int(input())
-number_tree = int(input())
-number = the_smallest_number([number_one, number_two, number_tree])
+number_three = int(input())
+number = the_smallest_number([number_one, number_two, number_three])
 print(number)
