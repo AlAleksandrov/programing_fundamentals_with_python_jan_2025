@@ -1,4 +1,4 @@
-def is_valid(password:str) ->str:
+def is_valid_password(password:str) ->str:
     is_valid_long = False
     is_valid_consist = False
     is_valid_digits = False
@@ -29,5 +29,5 @@ def is_valid(password:str) ->str:
 
 
 current_password = input()
-current_result = is_valid(current_password)
+current_result = is_valid_password(current_password)
 print(current_result)
