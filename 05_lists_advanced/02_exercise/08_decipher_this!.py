@@ -1,6 +1,6 @@
 secret_message = input().split()
 ascii_value = 0
-string = ""
+decipher_message = []
 for string in secret_message:
     ascii_value_string = ""
     for char in string:
@@ -11,4 +11,5 @@ for string in secret_message:
         string = chr(ascii_value) + string[len(string) - 1:len(string):]
     else:
         string = chr(ascii_value) + string[len(string) - 1:len(string):] + string[len(ascii_value_string) + 1:len(string) - 1:] + string[len(ascii_value_string):len(ascii_value_string) + 1:]
-    print(string, end=" ")
+    decipher_message.append(string)
+print(" ".join(decipher_message))
