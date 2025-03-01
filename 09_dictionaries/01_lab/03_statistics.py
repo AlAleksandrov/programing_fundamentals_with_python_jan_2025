@@ -12,9 +12,11 @@ while True:
         print(f"Total Products: {count_all_products}")
         print(f"Total Quantity: {sum_all_quantities}")
         break
+
     product = command[0]
     quantity = int(command[1])
     sum_all_quantities += quantity
+
     if product not in bakery:
         bakery[product] = quantity
         count_all_products += 1
