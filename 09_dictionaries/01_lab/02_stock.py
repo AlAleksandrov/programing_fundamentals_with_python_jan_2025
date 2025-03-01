@@ -8,8 +8,8 @@ for i in range(0, len(elements), 2):
 
 for i in range(0, len(stock)):
     product = stock[i]
-    if stock[i] in elements:
-        quantity = int(bakery.get(product))
+    if stock[i] in bakery:
+        quantity = int(bakery[product])
         print(f"We have {quantity} of {product} left")
     else:
         print(f"Sorry, we don't have {product}")
