@@ -14,34 +14,37 @@ while True:
     if next_command == "end of submissions":
         break
     current_contest, password, username, points = next_command.split("=>")
-    if current_contest in first_dictionary.keys():
-        if password in first_dictionary[current_contest]:
-            if username + "|" + current_contest not in second_dictionary.keys():
-                second_dictionary[username + "|" + current_contest] = points
-                if username not in thirth_dictionary.keys():
-                    thirth_dictionary[username] = int(points)
-                else:
-                    thirth_dictionary[username] += int(points)
+    points = int(points)
+    if current_contest in first_dictionary.keys() and password == first_dictionary[current_contest]:
+        if username not in second_dictionary.keys():
+            second_dictionary[username] = {current_contest:points}
+        else:
+            if current_contest not in second_dictionary[username].keys():
+                second_dictionary[username][current_contest] = points
             else:
-                if int(points) > int(second_dictionary[username + "|" + current_contest]):
-                    second_dictionary[username + "|" + current_contest] = points
-                    thirth_dictionary[username] += (int(points) - int(second_dictionary[username + "|" + current_contest]))
+                if second_dictionary[username][current_contest] < points:
+                    thirth_dictionary[username] += points - second_dictionary[username][current_contest]
+                continue
 
+        if username not in thirth_dictionary.keys():
+            thirth_dictionary[username] = points
+        else:
+            thirth_dictionary[username] += points
 
 total_points = 0
-candidate = ""
+best_candidate = ""
 for key, value in thirth_dictionary.items():
-    if total_points < value:
+    if value > total_points:
         total_points = value
-        candidate = key
+        best_candidate = key
 
-print(f"Best candidate is {candidate} with total {total_points} points.")
+print(f"Best candidate is {best_candidate} with total {total_points} points.")
 print("Ranking:")
-dictionary = {}
 candidate = ""
-for keys, values in sorted(second_dictionary.items()):
-    name, last_contest = keys.split("|")
+for name, value in sorted(second_dictionary.items()):
     if name != candidate:
         print(f"{name}")
         candidate = name
-    print(f"#  {last_contest} -> {values}")
+    sorted_value = sorted(second_dictionary[name].items(), key=lambda x: (-x[1], x[0]))
+    for last_contest, point in sorted_value:
+        print(f"#  {last_contest} -> {point}")
