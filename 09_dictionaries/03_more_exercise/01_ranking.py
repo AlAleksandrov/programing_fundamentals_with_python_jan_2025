@@ -15,21 +15,18 @@ while True:
         break
     current_contest, password, username, points = next_command.split("=>")
     points = int(points)
-    if current_contest in first_dictionary.keys() and password == first_dictionary[current_contest]:
-        if username not in second_dictionary.keys():
+    if current_contest in first_dictionary and password == first_dictionary[current_contest]:
+        if username not in second_dictionary:
             second_dictionary[username] = {current_contest:points}
-        else:
-            if current_contest not in second_dictionary[username].keys():
-                second_dictionary[username][current_contest] = points
-            else:
-                if second_dictionary[username][current_contest] < points:
-                    thirth_dictionary[username] += points - second_dictionary[username][current_contest]
-                continue
-
-        if username not in thirth_dictionary.keys():
             thirth_dictionary[username] = points
         else:
-            thirth_dictionary[username] += points
+            if current_contest not in second_dictionary[username]:
+                second_dictionary[username][current_contest] = points
+                thirth_dictionary[username] += points
+            elif points > second_dictionary[username][current_contest]:
+                thirth_dictionary[username] = thirth_dictionary[username] - second_dictionary[username][current_contest] + points
+                second_dictionary[username][current_contest] = points
+
 
 total_points = 0
 best_candidate = ""
@@ -40,11 +37,9 @@ for key, value in thirth_dictionary.items():
 
 print(f"Best candidate is {best_candidate} with total {total_points} points.")
 print("Ranking:")
-candidate = ""
-for name, value in sorted(second_dictionary.items()):
-    if name != candidate:
-        print(f"{name}")
-        candidate = name
+
+for name in sorted(second_dictionary.keys()):
+    print(f"{name}")
     sorted_value = sorted(second_dictionary[name].items(), key=lambda x: (-x[1], x[0]))
     for last_contest, point in sorted_value:
         print(f"#  {last_contest} -> {point}")
